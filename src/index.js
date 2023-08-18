@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
+import "./index.css";
 const pizzaData = [
   {
     name: "Focaccia",
@@ -44,41 +44,70 @@ const pizzaData = [
     photoName: "pizzas/prosciutto.jpg",
     soldOut: false,
   },
-  
 ];
 
 function App() {
   return (
-    <div>
+    <div className="container">
       <Header />
-      <Menu />
+      <Menu Pizza={Pizza}/>
       <Footer />
     </div>
   );
 }
 
 function Header() {
-  
-  return <h1 >Fast React Pizza co.</h1>;
+  // const style ={color:"red",fontSize:"45px",textTransform:"uppercase"}
+  return (
+    <header className="header">
+      <h1>Fast React Pizza co.</h1>
+    </header>
+  );
 }
 
 function Menu() {
   return (
-    <div>
+    <main className="menu">
       <h2>Our Menu</h2>
-      <Pizza />
-      <Pizza />
-      <Pizza />
-      <Pizza />
+      {/* passing pizza as a props to pizza component */}
+{/* Each time Menu component is rendering , it is calling Pizza component and passing the pizza details (data)
+into Pizza component as a props . the Pizza component is receiving data as a props and using it inside
+Pizza component and return a pizza. then Menu calls the Second Pizza and pass the data as a props again and get the 
+second Pizza */}
+      <Pizza
+        name="Pizza spinaci"
+        ingredients="Tomato, mozarella, spinach, and ricotta cheese"
+        photoName="pizzas/spinaci.jpg"
+        price={10}
+      />
+      <Pizza
+        name="Pizza Funghi"
+        ingredients="Tomato, mozarella, mushrooms, and onion"
+        photoName="pizzas/funghi.jpg"
+       price={12}
+      />
+    </main>
+  );
+}
+function Pizza(props) {
+  // console.log(props);
+  return (
+    <div className="pizza">
+      <img src={props.photoName} alt={props.name} />
+      <div>
+        <h3>{props.name}</h3>
+        <p>{props.ingredients}</p>
+        <span>{props.price + 3}</span>
+      </div>
     </div>
   );
 }
 
 function Footer() {
-  const hour =new Date().getHours();
+  const hour = new Date().getHours();
   // console.log(hour);
-  const openHour =12;
-  const closeHour=22;
+  const openHour = 12;
+  const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
   console.log(isOpen);
   // if(hour>=openHour&& hour<=closeHour){
@@ -86,19 +115,13 @@ function Footer() {
   // }else alert("Sorry we are close")
 
   return (
-    <footer>{new Date().toLocaleTimeString()}.we're currently open.</footer>
+    <footer className="footer">
+      {new Date().toLocaleTimeString()}.we're currently open.
+    </footer>
   );
 }
 
-function Pizza() {
-  return (
-    <div>
-      <img src="pizzas/spinaci.jpg" alt="Pizza spinaci" />
-      <h2>Pizza Spinaci</h2>
-      <p>Tomato, mozarella, spinach, and ricotta cheese</p>
-    </div>
-  );
-}
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
