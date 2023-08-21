@@ -70,11 +70,19 @@ function Menu() {
     <main className="menu">
       <h2>Our Menu</h2>
       {/* passing pizza as a props to pizza component */}
-{/* Each time Menu component is rendering , it is calling Pizza component and passing the pizza details (data)
+      {/* Each time Menu component is rendering , it is calling Pizza component and passing the pizza details (data)
 into Pizza component as a props . the Pizza component is receiving data as a props and using it inside
 Pizza component and return a pizza. then Menu calls the Second Pizza and pass the data as a props again and get the 
 second Pizza */}
-      <Pizza
+      <ul className="pizzas">
+       {pizzaData.map((pizza)=>{
+        // each time you render a component in the list . each component needs a unique key.
+        return <Pizza pizzaObj = {pizza} key={pizza.name}/>
+       })}
+
+      </ul>
+    {/* instead of rendering pizza component like this . we will use map function */}
+      {/* <Pizza
         name="Pizza spinaci"
         ingredients="Tomato, mozarella, spinach, and ricotta cheese"
         photoName="pizzas/spinaci.jpg"
@@ -85,21 +93,21 @@ second Pizza */}
         ingredients="Tomato, mozarella, mushrooms, and onion"
         photoName="pizzas/funghi.jpg"
        price={12}
-      />
+      /> */}
     </main>
   );
 }
 function Pizza(props) {
   // console.log(props);
   return (
-    <div className="pizza">
-      <img src={props.photoName} alt={props.name} />
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
       <div>
-        <h3>{props.name}</h3>
-        <p>{props.ingredients}</p>
-        <span>{props.price + 3}</span>
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price + 3}</span>
       </div>
-    </div>
+    </li>
   );
 }
 
