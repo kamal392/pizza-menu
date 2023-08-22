@@ -50,7 +50,7 @@ function App() {
   return (
     <div className="container">
       <Header />
-      <Menu Pizza={Pizza}/>
+      <Menu Pizza={Pizza} />
       <Footer />
     </div>
   );
@@ -66,10 +66,10 @@ function Header() {
 }
 
 function Menu() {
-  const pizzas =pizzaData
+  const pizzas = pizzaData;
   // an empty array has a truthy value. so the component will still render.
-  // const pizzas =[]
-  const numPizza =pizzas.length;
+  // const pizzas =[];
+  const numPizza = pizzas.length;
   return (
     <main className="menu">
       <h2>Our Menu</h2>
@@ -78,13 +78,16 @@ function Menu() {
 into Pizza component as a props . the Pizza component is receiving data as a props and using it inside
 Pizza component and return a pizza. then Menu calls the Second Pizza and pass the data as a props again and get the 
 second Pizza .&& does return a 0 value*/}
-      {numPizza >0 && (
+      {/* Replacing && operator with ternaries operator */}
+      {numPizza > 0 ? (
         <ul className="pizzas">
           {pizzas.map((pizza) => {
             // each time you render a component in the list . each component needs a unique key.
             return <Pizza pizzaObj={pizza} key={pizza.name} />;
           })}
         </ul>
+      ) : (
+        <p>We are still working on our menu. Please come back later : </p>
       )}
 
       {/* instead of rendering pizza component like this . we will use map function */}
@@ -121,7 +124,7 @@ function Footer() {
   const hour = new Date().getHours();
   // console.log(hour);
   const openHour = 12;
-  const closeHour = 22;
+  const closeHour = 17;
   const isOpen = hour >= openHour && hour <= closeHour;
   console.log(isOpen);
   // if(hour>=openHour&& hour<=closeHour){
@@ -132,20 +135,21 @@ function Footer() {
     <footer className="footer">
       {/* conditional rendering. first thing we need to add javascript mode using {}
        with && operator we we can short circuit */}
-     {openHour&&(<div className="order">
-      <p>
-        we are open until {closeHour}:00 .Come visit us or order online.
-      </p>
-      <button className="btn">
-        Order
-      </button>
-     </div>)}
-     
+      {isOpen ? (
+        <div className="order">
+          <p>
+            we are open until {closeHour}:00. Come visit us or order online.
+          </p>
+          <button className="btn">Order</button>
+        </div>
+      ) : (
+        <p>
+          we are happy to serve you between {openHour}:00 and {closeHour}:00.
+        </p>
+      )}
     </footer>
   );
 }
-
-
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
