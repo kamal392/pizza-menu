@@ -66,6 +66,10 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas =pizzaData
+  // an empty array has a truthy value. so the component will still render.
+  // const pizzas =[]
+  const numPizza =pizzas.length;
   return (
     <main className="menu">
       <h2>Our Menu</h2>
@@ -73,15 +77,17 @@ function Menu() {
       {/* Each time Menu component is rendering , it is calling Pizza component and passing the pizza details (data)
 into Pizza component as a props . the Pizza component is receiving data as a props and using it inside
 Pizza component and return a pizza. then Menu calls the Second Pizza and pass the data as a props again and get the 
-second Pizza */}
-      <ul className="pizzas">
-       {pizzaData.map((pizza)=>{
-        // each time you render a component in the list . each component needs a unique key.
-        return <Pizza pizzaObj = {pizza} key={pizza.name}/>
-       })}
+second Pizza .&& does return a 0 value*/}
+      {numPizza >0 && (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => {
+            // each time you render a component in the list . each component needs a unique key.
+            return <Pizza pizzaObj={pizza} key={pizza.name} />;
+          })}
+        </ul>
+      )}
 
-      </ul>
-    {/* instead of rendering pizza component like this . we will use map function */}
+      {/* instead of rendering pizza component like this . we will use map function */}
       {/* <Pizza
         name="Pizza spinaci"
         ingredients="Tomato, mozarella, spinach, and ricotta cheese"
@@ -124,7 +130,17 @@ function Footer() {
 
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()}.we're currently open.
+      {/* conditional rendering. first thing we need to add javascript mode using {}
+       with && operator we we can short circuit */}
+     {openHour&&(<div className="order">
+      <p>
+        we are open until {closeHour}:00 .Come visit us or order online.
+      </p>
+      <button className="btn">
+        Order
+      </button>
+     </div>)}
+     
     </footer>
   );
 }
