@@ -50,7 +50,7 @@ function App() {
   return (
     <div className="container">
       <Header />
-      <Menu Pizza={Pizza} />
+      <Menu />
       <Footer />
     </div>
   );
@@ -73,6 +73,7 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Our Menu</h2>
+
       {/* passing pizza as a props to pizza component */}
       {/* Each time Menu component is rendering , it is calling Pizza component and passing the pizza details (data)
 into Pizza component as a props . the Pizza component is receiving data as a props and using it inside
@@ -80,12 +81,18 @@ Pizza component and return a pizza. then Menu calls the Second Pizza and pass th
 second Pizza .&& does return a 0 value*/}
       {/* Replacing && operator with ternaries operator */}
       {numPizza > 0 ? (
-        <ul className="pizzas">
-          {pizzas.map((pizza) => {
-            // each time you render a component in the list . each component needs a unique key.
-            return <Pizza pizzaObj={pizza} key={pizza.name} />;
-          })}
-        </ul>
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to chose from. All from
+            out stove oven , all organic ,all delicious.
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((pizza) => {
+              // each time you render a component in the list . each component needs a unique key.
+              return <Pizza pizzaObj={pizza} key={pizza.name} />;
+            })}
+          </ul>
+        </>
       ) : (
         <p>We are still working on our menu. Please come back later : </p>
       )}
@@ -106,20 +113,22 @@ second Pizza .&& does return a 0 value*/}
     </main>
   );
 }
-function Pizza(props) {
+// immediate destructure pizzaObj so no need to use props word.
+function Pizza({pizzaObj}) {
   // console.log(props);
   // here we are using if statement coz we don't want part of component
   // to render if the condition is true.
-  if (props.pizzaObj.soldOut) {
-    return null;
-  }
+  // console.log(pizzaObj);
+  // if (pizzaObj.soldOut) {
+  //   return null;
+  // }
   return (
-    <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out":""}`}>
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price + 3}</span>
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.soldOut?"SOLD OUT":pizzaObj.price + 3}</span>
       </div>
     </li>
   );
@@ -149,7 +158,8 @@ function Footer() {
       {/* conditional rendering. first thing we need to add javascript mode using {}
        with && operator we we can short circuit */}
       {isOpen ? (
-        <Order closeHour={closeHour} />
+        <Order closeHour={closeHour} 
+               openHour={openHour}/>
       ) : (
         // footer component is looking bigger now so lets move it out and have it inside the Order component.
 
@@ -161,11 +171,11 @@ function Footer() {
   );
 }
 
-function Order(props) {
+function Order({closeHour,openHour}) {
   return (
     <div className="order">
       <p>
-        we are open until {props.closeHour}:00. Come visit us or order online.
+        We are open from {openHour}:00 to {closeHour}:00. Come visit us or order online.
       </p>
       <button className="btn">Order</button>
     </div>
