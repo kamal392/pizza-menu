@@ -108,6 +108,11 @@ second Pizza .&& does return a 0 value*/}
 }
 function Pizza(props) {
   // console.log(props);
+  // here we are using if statement coz we don't want part of component
+  // to render if the condition is true.
+  if (props.pizzaObj.soldOut) {
+    return null;
+  }
   return (
     <li className="pizza">
       <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
@@ -124,30 +129,46 @@ function Footer() {
   const hour = new Date().getHours();
   // console.log(hour);
   const openHour = 12;
-  const closeHour = 17;
+  const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
   console.log(isOpen);
   // if(hour>=openHour&& hour<=closeHour){
   //   alert("we are open")
   // }else alert("Sorry we are close")
-
+  // ==================================
+  // conditional rendering with multiple return.
+  //  we can use if and else statement in inside the component but not inside return statement cox everything inside
+  // return statement is JSX . we cant use if else in jsx, we use ternary and && operator in jsx.
+  // lets move condition statement from return to component and use multiple return.
+  // if (!isOpen) {
+  //   // this is good when we have to render part of the component . not the entire component.
+  //   return <p>we are not ready to serve.</p>;
+  // }
   return (
     <footer className="footer">
       {/* conditional rendering. first thing we need to add javascript mode using {}
        with && operator we we can short circuit */}
       {isOpen ? (
-        <div className="order">
-          <p>
-            we are open until {closeHour}:00. Come visit us or order online.
-          </p>
-          <button className="btn">Order</button>
-        </div>
+        <Order closeHour={closeHour} />
       ) : (
+        // footer component is looking bigger now so lets move it out and have it inside the Order component.
+
         <p>
           we are happy to serve you between {openHour}:00 and {closeHour}:00.
         </p>
       )}
     </footer>
+  );
+}
+
+function Order(props) {
+  return (
+    <div className="order">
+      <p>
+        we are open until {props.closeHour}:00. Come visit us or order online.
+      </p>
+      <button className="btn">Order</button>
+    </div>
   );
 }
 
